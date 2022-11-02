@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.twt.cursoandroid.recyclerview.R;
+import com.twt.cursoandroid.recyclerview.RecyclerItemClickListener;
 import com.twt.cursoandroid.recyclerview.adapter.Adapter;
 import com.twt.cursoandroid.recyclerview.model.Filme;
 
@@ -40,6 +44,32 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        //Evento de click
+        recyclerView.addOnItemTouchListener(
+            new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Filme filme = filmeList.get(position);
+                    Toast.makeText(getApplicationContext(),
+                            "Item pressionado: " + filme.getTitulo(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onLongItemClick(View view, int position) {
+                    Filme filme = filmeList.get(position);
+                    Toast.makeText(getApplicationContext(),
+                            "Clique longo: " + filme.getTitulo(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                }
+            })
+        );
     }
 
     public void criarFilmes(){
